@@ -1,0 +1,36 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+# Install dependencies (Python for example, if needed)
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.x'
+    addToPath: true
+
+# Download and install Katalon Runtime Engine (or use Docker)
+- powershell: |
+    curl -O https://download.katalon.com/8.x.x/Katalon_Studio_Engine_Windows_64-8.x.x.zip
+    Expand-Archive -Path Katalon_Studio_Engine_Windows_64-8.x.x.zip -DestinationPath $(Build.SourcesDirectory)/katalon
+
+# Run Katalon tests
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      $(Build.SourcesDirectory)/katalon/katalonc -noSplash -runMode=console \
+        -projectPath="$(Build.SourcesDirectory)/KatalonGitDemo" \
+        -retry=0 -testSuitePath="Test Suites/Test Suites/NewTestDemo" \
+        -executionProfile="default" -browserType="Chrome" \
+        -apiKey="6e8ae72f-b14e-4a85-b1f6-3a22245de0a2"
+
+# Publish test results
+- task: PublishTestResults@2
+  inputs:
+    testResultsFiles: '**/Reports/*.xml'
+    testRunTitle: 'Katalon Test Run'
