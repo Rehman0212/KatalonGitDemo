@@ -1,0 +1,35 @@
+trigger:
+  branches:
+    include:
+      - main  # Trigger pipeline on the main branch, you can customize this
+
+pool:
+  vmImage: 'windows-latest' # or use 'ubuntu-latest' based on your agent
+
+steps:
+- task: Maven@3
+  inputs:
+    mavenPomFile: 'pom.xml'
+    goals: 'clean install'  # In case your project needs Maven dependencies
+
+# Install the Katalon Runtime Engine if needed
+- powershell: |
+    Invoke-WebRequest -Uri https://download.katalon.com/8.x.x/Katalon_Studio_Engine_Windows_64-8.x.x.zip -OutFile $(Build.SourcesDirectory)\katalon.zip
+    Expand-Archive -Path $(Build.SourcesDirectory)\katalon.zip -DestinationPath $(Build.SourcesDirectory)\katalon
+
+# Run Katalon tests using Katalon Runtime Engine
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      $(Build.SourcesDirectory)/katalon/katalonc -noSplash -runMode=console \
+        -projectPath="$(Build.SourcesDirectory)/YOUR_KATALON_PROJECT_PATH" \
+        -retry=0 -testSuitePath="Test Suites/YOUR_TEST_SUITE" \
+        -executionProfile="default" -browserType="Chrome" \
+        -apiKey="YOUR_KATALON_API_KEY"
+
+# Publish test results to Azure DevOps
+- task: PublishTestResults@2
+  inputs:
+    testResultsFiles: '**/Reports/*.xml'
+    testRunTitle: 'Katalon Test Results'
