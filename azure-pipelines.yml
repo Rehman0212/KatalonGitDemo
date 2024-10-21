@@ -4,16 +4,14 @@
 # https://aka.ms/yaml
 
 trigger:
-- main
+  - main
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'windows-latest'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- task: katalonTask@1
+  displayName: 'Execute Katalon Studio project'
+  inputs:
+    version: '9.7.2'
+    executeArgs: '-browserType=Chrome -retry=0 -statusDelay=15 -testSuitePath=Test Suites/OrangeHRMTestSuite -apiKey=$(2/1208463862626728/1208464105863601:1e26c37a1c220aa277c81098a7214973)'
