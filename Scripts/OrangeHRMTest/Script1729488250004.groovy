@@ -19,23 +19,21 @@ import org.openqa.selenium.Keys as Keys
 
 WebUI.openBrowser('')
 
-WebUI.navigateToUrl('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login')
+WebUI.navigateToUrl('https://opensource-demo.orangehrmlive.com/')
 
-WebUI.setText(findTestObject('Object Repository/Page_OrangeHRM/input_Username_username'), 'Admin')
+WebUI.maximizeWindow(FailureHandling.STOP_ON_FAILURE)
 
-WebUI.setEncryptedText(findTestObject('Object Repository/Page_OrangeHRM/input_Password_password'), 'hUKwJTbofgPU9eVlw/CnDQ==')
+WebUI.setText(findTestObject('Page_OrangeHRM/input_Username_username'), 'Admin')
 
-WebUI.click(findTestObject('Object Repository/Page_OrangeHRM/button_Login'))
+WebUI.setText(findTestObject('Page_OrangeHRM/input_Password_password'), 'admin123')
 
-WebUI.click(findTestObject('Object Repository/Page_OrangeHRM/a_Time'))
+WebUI.click(findTestObject('Page_OrangeHRM/button_Login'))
 
-WebUI.click(findTestObject('Object Repository/Page_OrangeHRM/span_Attendance'))
+WebUI.click(findTestObject('Page_OrangeHRM/a_Time'))
 
-WebUI.click(findTestObject('Object Repository/Page_OrangeHRM/a_My Records'))
+WebUI.click(findTestObject('Page_OrangeHRM/Click_Profile'))
 
-WebUI.click(findTestObject('Object Repository/Page_OrangeHRM/i_Upgrade_oxd-icon bi-caret-down-fill oxd-u_ca92f9'))
-
-WebUI.click(findTestObject('Object Repository/Page_OrangeHRM/a_Logout'))
+WebUI.click(findTestObject('Page_OrangeHRM/a_Logout'))
 
 WebUI.closeBrowser()
 

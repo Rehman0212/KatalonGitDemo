@@ -1,0 +1,5 @@
+Suite/Test/Step Name,Browser,Description,Tag,Start time,End time,Duration,Status
+NewTestDemo,,,,18-10-2024 18:39:23,18-10-2024 18:39:23,0.341s,PASSED
+,,,,,,,
+Test Cases/NewDemoTest,,,,18-10-2024 18:39:23,18-10-2024 18:39:23,0.178s,PASSED
+return null,,,,18-10-2024 18:39:23,18-10-2024 18:39:23,0.002s,PASSED
